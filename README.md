@@ -1,130 +1,76 @@
-# React Admin Portal
+# ToolBox
 
-A modern React 19 + TypeScript + Vite admin application with authentication, routing, state management, and a standardized architecture.
+ToolBox is a static, client-side-only website acting as a hub for small, single-purpose utility tools. It is designed to run 100% in the browser with **no backend, no database, no user accounts, and no server logic**.
 
-## 🚀 Tech Stack
+Once deployed, the site requires zero human intervention to keep running.
 
-- **Framework**: React 19 + TypeScript
-- **Build Tool**: Vite 5
-- **Routing**: React Router v7
-- **State Management**: Redux Toolkit + Redux Persist
-- **Server State**: TanStack React Query v5
-- **HTTP Client**: Axios with interceptors
-- **Styling**: TailwindCSS + clsx
-- **Forms**: React Hook Form + Zod
-- **UI Components**: @headlessui/react, lucide-react
-- **Notifications**: react-hot-toast
+## Features
 
-## 📁 Project Structure
+12 fully offline, client-side tools:
+- **QR Code Generator**
+- **Password Generator**
+- **Unit Converter**
+- **Currency Converter** (Rates fetched daily via GitHub Actions)
+- **JSON Formatter & Validator**
+- **Markdown to HTML Converter**
+- **Word & Character Counter**
+- **Color Picker & Palette Generator**
+- **Base64 Encoder/Decoder**
+- **Image Compressor & Resizer**
+- **Lorem Ipsum Generator**
+- **Timestamp & Date Converter**
 
-```
-src/
-├── assets/              # Static assets
-├── components/          # Reusable UI components
-│   ├── ui/             # Primitive components (Button, Input, etc.)
-│   ├── ProtectedRoute.tsx
-│   └── AuthMiddleware.tsx
-├── context/            # React context providers
-├── hooks/              # Custom React hooks
-├── layouts/            # Layout wrapper components
-├── pages/              # Feature pages (auth, dashboard, etc.)
-├── redux/              # Redux store & slices
-│   ├── slices/
-│   └── store.ts
-├── routes/             # Route configuration
-│   ├── index.tsx
-│   └── authRoutes.tsx
-├── services/           # API services & TanStack Query hooks
-│   ├── api.ts
-│   └── authService.ts
-├── styles/             # Global CSS/Tailwind
-├── types/              # TypeScript interfaces
-├── utils/              # Utility functions & helpers
-│   ├── constants.ts
-│   ├── helpers.ts
-│   └── Loadable.tsx
-├── App.tsx
-└── main.tsx
-```
+Additional Features:
+- Fully Responsive Mobile-First Design
+- Dark Mode (saved in localStorage)
+- Automatically generated `sitemap.xml` on build
+- SEO optimized
 
-## 🛠️ Getting Started
+## Tech Stack
 
-### Prerequisites
+- **React 19**
+- **Vite**
+- **Tailwind CSS**
+- **Lucide React** (Icons)
+- Pure Client-Side JavaScript for logic
 
-- Node.js 18+ and npm/yarn/pnpm
-- Git
+## Getting Started
 
 ### Installation
 
-1. **Install dependencies**
+1. Clone the repository
+2. Install dependencies:
    ```bash
-   yarn install
-   # or
    npm install
-   # or
-   pnpm install
    ```
 
-2. **Create environment file**
-   ```bash
-   cp .env.example .env.local
-   ```
-   Update `.env.local` with your API base URL:
-   ```
-   VITE_API_BASE_URL=http://localhost:3000/api
-   ```
+### Development
 
-3. **Start development server**
-   ```bash
-   yarn dev
-   # or
-   npm run dev
-   ```
-   The app will open at `http://localhost:5173`
-
-## 📚 Architecture & Conventions
-
-### API Layer
-
-All API calls go through a centralized Axios instance with:
-- **Credentials**: `withCredentials: true` for cookie-based auth
-- **Portal Header**: `x-portal-type: admin` for backend routing
-- **401 Refresh Queue**: Automatic token refresh with request queuing
-
-### State Management
-
-**Redux** for global UI state (auth, user session)
-**TanStack Query** for server state (data fetching, caching)
-
-### Routing & Guards
-
-- **ProtectedRoute**: Checks authentication, redirects to login if not authenticated
-- **AuthMiddleware**: Redirects authenticated users away from login
-
-## 🚨 Golden Rules
-
-1. ✅ **No hardcoded URLs** → Use `constants.ts`
-2. ✅ **No raw DOM manipulation** → Use React state & refs
-3. ✅ **Reuse UI components** → Before writing custom ones
-4. ✅ **Handle all states** → Loading, empty, error cases
-5. ✅ **Strict TypeScript** → No `any` types
-6. ✅ **Lazy load pages** → Use `Loadable()` HOC
-7. ✅ **Cache invalidation** → Auto-invalidate on mutations
-
-## 📝 Scripts
-
+Run the development server:
 ```bash
-yarn dev       # Start dev server
-yarn build     # Build for production
-yarn preview   # Preview production build
-yarn lint      # Run ESLint
+npm run dev
 ```
 
-## 📖 Additional Resources
+### Build for Production
 
-- [React Docs](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Tailwind CSS](https://tailwindcss.com)
-- [React Router](https://reactrouter.com)
-- [Redux Toolkit](https://redux-toolkit.js.org)
-- [TanStack Query](https://tanstack.com/query)
+To build the static assets (this will automatically generate the `sitemap.xml`):
+```bash
+npm run build
+```
+
+## Deployment
+
+Because ToolBox is purely static, you can deploy the `dist` folder to any static hosting provider for free.
+
+### Deploying to Vercel or Netlify
+
+1. Connect your GitHub repository to Vercel or Netlify.
+2. Set the **Build Command** to: `npm run build`
+3. Set the **Output Directory** to: `dist`
+4. Deploy!
+
+## Automated Currency Rates
+
+The Currency Converter uses a static JSON file (`public/currency-rates.json`). This file is updated automatically every day at midnight (UTC) using a GitHub Action located in `.github/workflows/update-rates.yml`.
+
+No runtime API keys or server calls are needed by the client.
