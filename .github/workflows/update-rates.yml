@@ -1,0 +1,41 @@
+name: Update Currency Rates
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run at 00:00 UTC every day
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch and update rates
+        run: |
+          # Use a free, no-key-required API (or fallback if it fails)
+          RATES=$(curl -s "https://open.er-api.com/v6/latest/USD" || echo '{}')
+
+          if echo "$RATES" | jq -e '.result == "success"' > /dev/null; then
+            BASE=$(echo "$RATES" | jq -r '.base_code')
+            RATES_OBJ=$(echo "$RATES" | jq '.rates')
+            NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+            cat <<EOF > public/currency-rates.json
+          {
+            "base": "$BASE",
+            "rates": $RATES_OBJ,
+            "lastUpdated": "$NOW"
+          }
+          EOF
+
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add public/currency-rates.json
+            git commit -m "Auto-update currency rates" || exit 0
+            git push
+          else
+            echo "Failed to fetch valid rates from API."
+            exit 1
+          fi

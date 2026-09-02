@@ -14,7 +14,7 @@ export default tseslint.config(
       globals: globals.browser,
     },
     plugins: {
-      react,
+      'react-hooks': react,
       'react-refresh': reactRefresh,
     },
     rules: {
