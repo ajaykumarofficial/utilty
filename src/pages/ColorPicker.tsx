@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useMemo } from 'react';
 import { Copy, Check, Palette } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -79,7 +80,8 @@ export default function ColorPicker() {
   }, [color]);
 
   const handleCopy = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text)
+    toast.success('Copied to clipboard');
     setCopiedIndex(id);
     setTimeout(() => setCopiedIndex(null), 2000);
   };

@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState } from 'react';
 import { Download, RefreshCw } from 'lucide-react';
 import QRCode from 'qrcode';
@@ -39,6 +40,7 @@ export default function QrCodeGenerator() {
     link.download = `qrcode-${Date.now()}.png`;
     link.href = qrUrl;
     document.body.appendChild(link);
+    toast.success('Downloaded successfully!');
     link.click();
     document.body.removeChild(link);
   };

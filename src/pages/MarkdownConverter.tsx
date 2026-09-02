@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useRef, useEffect } from 'react';
 import { Copy, Check, Download, FileText, Trash2, Code } from 'lucide-react';
 import { marked } from 'marked';
@@ -31,7 +32,8 @@ export default function MarkdownConverter() {
 
   const handleCopy = () => {
     if (!html) return;
-    navigator.clipboard.writeText(html);
+    navigator.clipboard.writeText(html)
+    toast.success('Copied to clipboard');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

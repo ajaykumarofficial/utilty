@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useRef } from 'react';
 import { ArrowRightLeft, Copy, Check, Upload, Download, Trash2, Binary } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -59,7 +60,8 @@ export default function Base64Encoder() {
 
   const handleCopy = () => {
     if (!output) return;
-    navigator.clipboard.writeText(output);
+    navigator.clipboard.writeText(output)
+    toast.success('Copied to clipboard');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

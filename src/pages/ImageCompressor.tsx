@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useRef, useEffect } from 'react';
 import { Download, Upload, Image as ImageIcon, Settings2, Trash2 } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -21,7 +22,7 @@ export default function ImageCompressor() {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+      toast.error('Please select an image file');
       return;
     }
 
@@ -74,6 +75,7 @@ export default function ImageCompressor() {
     const extension = imageFile?.type === 'image/png' ? 'png' : 'jpg';
     link.download = `compressed-${Date.now()}.${extension}`;
     document.body.appendChild(link);
+    toast.success('Downloaded compressed image!');
     link.click();
     document.body.removeChild(link);
   };

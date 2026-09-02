@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useEffect } from 'react';
 import { Clock, Copy, Check } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -57,7 +58,8 @@ export default function TimestampConverter() {
   };
 
   const handleCopy = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text)
+    toast.success('Copied to clipboard');
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
   };

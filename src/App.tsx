@@ -1,8 +1,10 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
+import { Toaster } from 'react-hot-toast';
 
+// Lazy loaded pages
+const Home = lazy(() => import('./pages/Home'));
 const QrCodeGenerator = lazy(() => import('./pages/QrCodeGenerator'));
 const PasswordGenerator = lazy(() => import('./pages/PasswordGenerator'));
 const UnitConverter = lazy(() => import('./pages/UnitConverter'));
@@ -17,34 +19,93 @@ const LoremIpsumGenerator = lazy(() => import('./pages/LoremIpsumGenerator'));
 const TimestampConverter = lazy(() => import('./pages/TimestampConverter'));
 
 const LoadingFallback = () => (
-  <div className="flex justify-center items-center h-64">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  <div className="flex items-center justify-center min-h-[50vh]">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
   </div>
 );
 
 function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="tools/qrcode" element={<QrCodeGenerator />} />
-            <Route path="tools/password" element={<PasswordGenerator />} />
-            <Route path="tools/unit" element={<UnitConverter />} />
-            <Route path="tools/currency" element={<CurrencyConverter />} />
-            <Route path="tools/json" element={<JsonFormatter />} />
-            <Route path="tools/markdown" element={<MarkdownConverter />} />
-            <Route path="tools/wordcount" element={<WordCounter />} />
-            <Route path="tools/color" element={<ColorPicker />} />
-            <Route path="tools/base64" element={<Base64Encoder />} />
-            <Route path="tools/image" element={<ImageCompressor />} />
-            <Route path="tools/lorem" element={<LoremIpsumGenerator />} />
-            <Route path="tools/timestamp" element={<TimestampConverter />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <>
+      <Toaster position="bottom-right" toastOptions={{
+        className: 'dark:bg-gray-800 dark:text-white',
+      }} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={
+            <Suspense fallback={<LoadingFallback />}>
+              <Home />
+            </Suspense>
+          } />
+          <Route path="tools/qr-code-generator" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <QrCodeGenerator />
+            </Suspense>
+          } />
+          <Route path="tools/password-generator" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <PasswordGenerator />
+            </Suspense>
+          } />
+          <Route path="tools/unit-converter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <UnitConverter />
+            </Suspense>
+          } />
+          <Route path="tools/currency-converter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <CurrencyConverter />
+            </Suspense>
+          } />
+          <Route path="tools/json-formatter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <JsonFormatter />
+            </Suspense>
+          } />
+          <Route path="tools/markdown-converter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <MarkdownConverter />
+            </Suspense>
+          } />
+          <Route path="tools/word-counter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <WordCounter />
+            </Suspense>
+          } />
+          <Route path="tools/color-picker" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <ColorPicker />
+            </Suspense>
+          } />
+          <Route path="tools/base64-encoder" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <Base64Encoder />
+            </Suspense>
+          } />
+          <Route path="tools/image-compressor" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <ImageCompressor />
+            </Suspense>
+          } />
+          <Route path="tools/lorem-ipsum-generator" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <LoremIpsumGenerator />
+            </Suspense>
+          } />
+          <Route path="tools/timestamp-converter" element={
+            <Suspense fallback={<LoadingFallback />}>
+              <TimestampConverter />
+            </Suspense>
+          } />
+          <Route path="*" element={
+            <div className="text-center py-20">
+              <h1 className="text-4xl font-bold mb-4">404</h1>
+              <p className="text-gray-500">Tool not found.</p>
+            </div>
+          } />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

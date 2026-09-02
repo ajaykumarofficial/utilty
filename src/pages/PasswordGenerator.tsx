@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useEffect, useCallback } from 'react';
 import { Copy, RefreshCw, Check } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -39,7 +40,8 @@ export default function PasswordGenerator() {
 
   const copyToClipboard = () => {
     if (!password) return;
-    navigator.clipboard.writeText(password);
+    navigator.clipboard.writeText(password)
+    toast.success('Copied to clipboard');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

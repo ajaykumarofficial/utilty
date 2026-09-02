@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useMemo } from 'react';
 import { Copy, Check, RefreshCw, AlignLeft } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -80,7 +81,8 @@ export default function LoremIpsumGenerator() {
 
   const handleCopy = () => {
     if (!generatedText) return;
-    navigator.clipboard.writeText(generatedText);
+    navigator.clipboard.writeText(generatedText)
+    toast.success('Copied to clipboard');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

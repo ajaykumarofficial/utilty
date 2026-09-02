@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useMemo } from 'react';
 import { FileText, Type, Hash, Clock, Trash2, Copy, Check } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
@@ -33,7 +34,8 @@ export default function WordCounter() {
 
   const handleCopy = () => {
     if (!text) return;
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text)
+    toast.success('Copied to clipboard');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
